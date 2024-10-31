@@ -8,7 +8,7 @@ import html403 from '../403.html';
 function generateRandomString(length) {
     const characters = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const charactersLength = characters.length;
-    let result = '-';
+    let result = '';
 
     // 使用更安全的随机数生成器
     for (let i = 1; i < length; i++) {
