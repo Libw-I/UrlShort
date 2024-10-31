@@ -1,26 +1,15 @@
 <!DOCTYPE html>
-<!-- Copyright (c) molikai-work (2024)
-  - molikai-work 的特定修改和新增部分
-  - 根据 MIT 许可证发布
--->
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8" />
-    <title>Example 短网址 - 遇到问题: 找不到页面</title>
+    <title>Ncm.Re 短网址 - 遇到问题: 找不到页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" rel="preload" href="/css/error.min.css" />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" rel="preload" href="/css/error.css" />
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var currentUrl = window.location.href;
-    
-            var currentDate = new Date();
-            var formattedDate = currentDate.toLocaleString();
-    
-            var urlSpan = document.getElementById('page-url');
-            urlSpan.textContent = currentUrl;
-    
-            var dateSpan = document.getElementById('date-time');
-            dateSpan.textContent = formattedDate;
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('page-url').textContent = window.location.href;
+            document.getElementById('date-time').textContent = new Date().toLocaleString();
         });
     </script>
 </head>

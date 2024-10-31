@@ -1,12 +1,6 @@
-/*
- * Copyright (c) molikai-work (2024)
- * molikai-work 的特定修改和新增部分
- * 根据 MIT 许可证发布
- */
-
 // functions/ip.js
 
-import { createResponse, hashPassword } from './utils';
+import {createResponse, hashPassword} from './utils';
 
 import html403 from '../403.html';
 
@@ -26,7 +20,7 @@ export async function onRequest(context) {
     // 处理操作请求的函数
     async function handleOperationRequest(context) {
         try {
-            const { request, env } = context;
+            const {request, env} = context;
             const clientIP = request.headers.get("CF-Connecting-IP");
             const hostName = request.headers.get("Host");
 
@@ -36,7 +30,7 @@ export async function onRequest(context) {
             } else if (hostName !== `${context.env.SHORT_DOMAINS}`) {
                 // 返回 403 响应
                 return new Response(html403, {
-                    headers: { 'Content-Type': 'text/html;charset=UTF-8' },
+                    headers: {'Content-Type': 'text/html;charset=UTF-8'},
                     status: 403
                 });
             }
@@ -56,7 +50,7 @@ export async function onRequest(context) {
             }
 
             // 从 JSON 数据中解构出进入参数
-            const { operation, slug, password, newUrl, newSlug, newPassword, turnstileToken } = requestBody;
+            const {operation, slug, password, newUrl, newSlug, newPassword, turnstileToken} = requestBody;
 
             if (newUrl && !/^(https?):\/\/.{3,}/.test(newUrl)) {
                 return createResponse(422, 'URL 格式不合规范', 422);
@@ -66,7 +60,7 @@ export async function onRequest(context) {
                 return createResponse(422, 'Slug 4-9位且不能以点开头或结束、含有部分特殊字符和扩展名', 422);
             }
 
-            if (newPassword &&!/^(?=.*[a-zA-Z])(?=.*[0-9@#$%&])[a-zA-Z0-9@#$%&]{6,12}$/.test(newPassword)) {
+            if (newPassword && !/^(?=.*[a-zA-Z])(?=.*[0-9@#$%&])[a-zA-Z0-9@#$%&]{6,12}$/.test(newPassword)) {
                 return createResponse(422, '密码 6-12位且大小写字母和数字或部分特殊符号必须包含其中两项', 422);
             }
 
@@ -100,7 +94,9 @@ export async function onRequest(context) {
                 try {
                     // 验证密码
                     const result = await context.env.DB.prepare(`
-                        SELECT password FROM links WHERE slug = ?
+                        SELECT password
+                        FROM links
+                        WHERE slug = ?
                     `).bind(slug).first();
 
                     if (!result || result === "undefined") {
@@ -174,7 +170,7 @@ export async function onRequest(context) {
             }
             const banUrlQueryResult = await context.env.DB.prepare(`
                 SELECT id AS id
-                FROM banUrl 
+                FROM banUrl
                 WHERE url = ?
             `).bind(urlHostname).first();
             if (banUrlQueryResult) {
@@ -195,7 +191,9 @@ export async function onRequest(context) {
 
             // 更新网址
             const result = await context.env.DB.prepare(`
-                UPDATE links SET url = ? WHERE slug = ?
+                UPDATE links
+                SET url = ?
+                WHERE slug = ?
             `).bind(newUrl, slug).run();
 
             return createResponse(200, '网址已成功更新', 200);
@@ -213,7 +211,9 @@ export async function onRequest(context) {
 
             // 检查 Slug 是否已存在
             const existingSlug = await context.env.DB.prepare(`
-                SELECT id FROM links WHERE slug = ?
+                SELECT id
+                FROM links
+                WHERE slug = ?
             `).bind(newSlug).first();
 
             if (existingSlug) {
@@ -222,7 +222,9 @@ export async function onRequest(context) {
 
             // 更新 Slug
             const result = await context.env.DB.prepare(`
-                UPDATE links SET slug = ? WHERE slug = ?
+                UPDATE links
+                SET slug = ?
+                WHERE slug = ?
             `).bind(newSlug, oldSlug).run();
 
             return createResponse(200, 'Slug 已成功更新', 200);
@@ -240,7 +242,9 @@ export async function onRequest(context) {
 
             // 更新密码
             const result = await context.env.DB.prepare(`
-                UPDATE links SET password = ? WHERE slug = ?
+                UPDATE links
+                SET password = ?
+                WHERE slug = ?
             `).bind(newPassword, slug).run();
 
             return createResponse(200, '密码已成功更新', 200);
@@ -254,7 +258,9 @@ export async function onRequest(context) {
         try {
             // 删除短链
             const result = await context.env.DB.prepare(`
-                DELETE FROM links WHERE slug = ?
+                DELETE
+                FROM links
+                WHERE slug = ?
             `).bind(slug).run();
 
             return createResponse(200, '短链已成功删除', 200);

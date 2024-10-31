@@ -1,65 +1,61 @@
 <!DOCTYPE html>
-<!-- 2024/03/17
-  - c1n.top 短链
-  - molikai-work 的特定修改和新增部分
-  - Copyright 2023-Presen c1nTop. All rights reserved.
-  - 由 X-DR/Short 的产品提供，二次修改在：molikai-work/short，Cloudflare 提供计算服务
-  - 根据 MIT 许可证发布
--->
-<html lang="zh-CN">
+<html lang="zh-cn">
 <head>
-    <meta charset="UTF-8" />
-    <title>Example 短网址</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/styles.min.css" />
-    <script src="/js/jquery.min.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="/js/script.min.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Ncm.Re 短网址</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/favicon.ico"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <script src="//challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="/js/script.js"></script>
 </head>
 <body>
-    <div class="canister">
-        <header>
-            <h1>Example 短网址</h1>
-            <p>提供免费的短网址服务 😎</p>
-        </header>
+<div class="canister">
+    <header>
+        <h1>Ncm.Re 短网址</h1>
+        <p>提供免费的短网址服务 😎</p>
+    </header>
 
-        <div id="app">
-            <p id="alert"></p> 
-    
-            <input placeholder="在这里输入要缩短的网址..." alt="在这里必填短链的目标网址，在生成完成后这里也会被替换为生成的短链" id="url" />
+    <div id="app">
+        <p id="alert"></p>
 
-            <details>
-                <summary alt="点击展开可选自定义部分">可选自定义设置</summary>
-                <div>
-                    <input placeholder="Slug" alt="最终短链的 ID 部分" id="slug" autocomplete="off" />
-                    <small>默认随机生成的支持中文的短 ID。</small>
-                    <input type="password" placeholder="Password" alt="您为此短链设置的管理密码" id="password" />
-                    <small>在<a href="/pages/manage" target="_blank">管理工具</a>中更新短链信息的密码。</small>
-                    <input placeholder="Email" alt="凭这里填写的邮箱联系管理员，让管理员知道您是谁" id="email" />
-                    <small>用于联系管理员编辑短链的邮箱。</small>
-                </div>
-            </details>
+        <input placeholder="在这里输入要缩短的网址..."
+               alt="在这里必填短链的目标网址，在生成完成后这里也会被替换为生成的短链" id="url"/>
 
-            <div class="cf-turnstile" data-sitekey=""></div>
-
-            <button id="submit" alt="点击此按钮以生成短链">生成短链</button>
-        </div>
-
-        <footer>
-            <p class="links">
-                <a href="https://gitcode.top/" title="友情链接：分享代码的博客" rel="noopener noreferrer" target="_blank" style="white-space: nowrap;">分享代码的博客</a> ｜
-                <a href="https://furries.fun/" title="友情链接：小黄泊的小站" rel="noopener noreferrer" target="_blank" style="white-space: nowrap;">小黄泊的小站</a>
-            </p>
-
-            <div class="copyright">
-                <p>Copyright &copy; 2023-Present
-                    <a href="https://c1n.top/">Example</a>.<br />
-                    Powered by <a href="https://github.com/molikai-work/short" rel="external nofollow noopener noreferrer" target="_blank">Short</a>.
-                </p>
+        <details>
+            <summary alt="点击展开可选自定义部分">可选自定义设置</summary>
+            <div>
+                <input placeholder="Slug" alt="最终短链的 ID 部分" id="slug" autocomplete="off"/>
+                <small>默认随机生成的支持中文的短 ID。</small>
+                <input type="password" placeholder="Password" alt="您为此短链设置的管理密码" id="password"/>
+                <small>在<a href="/pages/manage" target="_blank">管理工具</a>中更新短链信息的密码。</small>
+                <input placeholder="Email" alt="凭这里填写的邮箱联系管理员，让管理员知道您是谁" id="email"/>
+                <small>用于联系管理员编辑短链的邮箱。</small>
             </div>
-        </footer>
+        </details>
+
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAylDH0pXEVAkn1K"></div>
+
+        <button id="submit" alt="点击此按钮以生成短链">生成短链</button>
     </div>
 
-    <script src="/js/web_console.min.js" async defer></script>
+    <footer>
+        <p class="links">
+            <a href="https://www.libw.cc/" title="友情链接：本伟_主页" rel="noopener noreferrer" target="_blank"
+               style="white-space: nowrap;">本伟_主页</a> ｜
+            <a href="https://www.exusiai.space/" title="友情链接：雨的主页" rel="noopener noreferrer" target="_blank"
+               style="white-space: nowrap;">雨的主页</a>
+        </p>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2023-Present
+                <a href="https://ncm.re/">Ncm.Re</a>.<br/>
+                Powered by <a href="https://github.com/Libw-I/UrlShort" rel="external nofollow noopener noreferrer"
+                              target="_blank">Short</a>.
+            </p>
+        </div>
+    </footer>
+</div>
+
 </body>
 </html>

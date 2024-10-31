@@ -1,18 +1,12 @@
-/*
- * Copyright (c) molikai-work (2024)
- * molikai-work 的特定修改和新增部分
- * 根据 MIT 许可证发布
- */
-
 // functions/[id].js
 
-import { shortName, htmlHead, adminEmail, noscript, footer } from './utils';
+import {adminEmail, footer, htmlHead, noscript, shortName} from './utils';
 
 import html404 from '../404.html';
 
 // 处理 GET 请求的函数
 export async function onRequestGet(context) {
-    const { request, env, params } = context;
+    const {request, env, params} = context;
 
     const clientIP = request.headers.get("CF-Connecting-IP");
     const userAgent = request.headers.get("User-Agent");
@@ -58,15 +52,15 @@ export async function onRequestGet(context) {
 
     // 查询 slug 对应的状态
     const statusQueryResult = await env.DB.prepare(`
-        SELECT status AS status 
-        FROM links 
+        SELECT status AS status
+        FROM links
         WHERE slug = ?
     `).bind(slug).first();
 
     // 查询 slug 对应的 URL
     const urlQueryResult = await env.DB.prepare(`
-        SELECT url AS url 
-        FROM links 
+        SELECT url AS url
+        FROM links
         WHERE slug = ?
     `).bind(slug).first();
 
@@ -89,16 +83,16 @@ export async function onRequestGet(context) {
                 INSERT INTO logs (url, slug, ip, status, referer, ua, hostname, create_time)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `)
-            .bind(
-                urlQueryResult.url || null,
-                slug || null,
-                clientIP || null,
-                status || null,
-                referer || null,
-                userAgent || null,
-                hostName || null,
-                formattedDate || null
-            ).run();
+                .bind(
+                    urlQueryResult.url || null,
+                    slug || null,
+                    clientIP || null,
+                    status || null,
+                    referer || null,
+                    userAgent || null,
+                    hostName || null,
+                    formattedDate || null
+                ).run();
 
             const banRedirectPage = `<!DOCTYPE html>
                 <html lang="zh-CN">
@@ -127,7 +121,7 @@ export async function onRequestGet(context) {
                 // 查询 banUrl 表是否存在该一级域名
                 const banUrlQueryResult = await env.DB.prepare(`
                     SELECT id AS id
-                    FROM banUrl 
+                    FROM banUrl
                     WHERE url = ?
                 `).bind(urlHostname).first();
 
@@ -191,8 +185,7 @@ export async function onRequestGet(context) {
                         function updateCountdown() {
                             const currentTime = Date.now();
                             const remainingTime = Math.max(targetTime - currentTime, 0);
-                            const seconds = Math.ceil(remainingTime / 1000);
-                            document.getElementById('countdown').innerText = seconds;
+                            document.getElementById('countdown').innerText = Math.ceil(remainingTime / 1000);
                             if (remainingTime > 0) {
                                 setTimeout(updateCountdown, 1000);
                             } else {

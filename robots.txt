@@ -3,4 +3,5 @@ Disallow: /*?*
 Disallow: /cdn-cgi
 Disallow: /asset
 Disallow: /css
+Disallow: /images
 Disallow: /js

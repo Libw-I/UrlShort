@@ -1,30 +1,24 @@
-/*
- * Copyright (c) molikai-work (2024)
- * molikai-work 的特定修改和新增部分
- * 根据 MIT 许可证发布
- */
-
 // functions/create.js
 
-import { createResponse, htmlCorsHeaders, shortName, hashPassword } from './utils';
+import {createResponse, hashPassword, htmlCorsHeaders, shortName} from './utils';
 
 import html403 from '../403.html';
 
 // 生成随机字符串 slug
 function generateRandomString(length) {
     const characters = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
+    const charactersLength = characters.length;
+    let result = '-';
 
-    // 将随机的首字符固定为 - 以区分随机和自定义
-    result += "-";
-
+    // 使用更安全的随机数生成器
     for (let i = 1; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters.charAt(randomIndex);
+        const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % charactersLength;
+        result += characters[randomIndex];
     }
 
     return result;
 }
+
 
 // 处理创建短链接的请求
 export async function onRequest(context) {
@@ -40,7 +34,7 @@ export async function onRequest(context) {
         });
     }
 
-    const { request, env } = context;
+    const {request, env} = context;
     const clientIP = request.headers.get("CF-Connecting-IP");
     const userAgent = request.headers.get("User-Agent");
 
@@ -67,7 +61,7 @@ export async function onRequest(context) {
     }
 
     // 从 JSON 数据中解构出进入参数
-    const { url, slug, password, email, turnstileToken } = await request.json();
+    const {url, slug, password, email, turnstileToken} = await request.json();
 
     // 开始进入参数检查
     // 1. 必须有 URL 参数 ------------------------------
@@ -102,7 +96,7 @@ export async function onRequest(context) {
 
     // 6. 如果有 Email 那么必须符合要求 ------------------------------
     // Email 格式检查
-    if (email && !/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    if (email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
         return createResponse(422, 'Email 格式不合规范', 422);
     }
 
@@ -157,7 +151,7 @@ export async function onRequest(context) {
     // 查询 banUrl 表是否存在该域名
     const banUrlQueryResult = await env.DB.prepare(`
         SELECT id AS id
-        FROM banUrl 
+        FROM banUrl
         WHERE url = ?
     `).bind(urlHostname).first();
 
@@ -180,8 +174,10 @@ export async function onRequest(context) {
             generatedSlug = generateRandomString(slugLength);
 
             // 查询数据库中是否存在相同的 Slug
-            const existingSlugQuery = await env.DB.prepare(`SELECT slug FROM links WHERE slug = ?`).bind(generatedSlug).first();
-    
+            const existingSlugQuery = await env.DB.prepare(`SELECT slug
+                                                            FROM links
+                                                            WHERE slug = ?`).bind(generatedSlug).first();
+
             if (!existingSlugQuery) {
                 uniqueSlugFound = true; // 找到唯一的 slug
             } else {
@@ -214,7 +210,9 @@ export async function onRequest(context) {
         // 检查自定义 Slug 是否已存在
         let existingUrlQuery = null;
         if (slug) {
-            existingUrlQuery = await env.DB.prepare(`SELECT url FROM links WHERE slug = ?`).bind(slug).first();
+            existingUrlQuery = await env.DB.prepare(`SELECT url
+                                                     FROM links
+                                                     WHERE slug = ?`).bind(slug).first();
             if (existingUrlQuery) {
                 if (existingUrlQuery.url === url) {
                     return createResponse(409, '该链接及 Slug 已存在', 409);
@@ -224,7 +222,9 @@ export async function onRequest(context) {
         }
 
         // 检查 URL 是否已存在
-        const existingSlugQuery = await env.DB.prepare(`SELECT slug FROM links WHERE url = ?`).bind(url).first();
+        const existingSlugQuery = await env.DB.prepare(`SELECT slug
+                                                        FROM links
+                                                        WHERE url = ?`).bind(url).first();
         if (existingSlugQuery && !slug && !email) {
             // 返回已生成的短链
             return createResponse(200, 'success', 200, {
@@ -245,16 +245,16 @@ export async function onRequest(context) {
             INSERT INTO links (url, slug, password, email, ip, status, ua, hostname, create_time)
             VALUES (?, ?, ?, ?, ?, 'ok', ?, ?, ?)
         `)
-        .bind(
-            url || null,
-            generatedSlug || null,
-            hashedPassword || null,
-            email || null,
-            clientIP || null,
-            userAgent || null,
-            hostName || null,
-            formattedDate || null
-        ).run();
+            .bind(
+                url || null,
+                generatedSlug || null,
+                hashedPassword || null,
+                email || null,
+                clientIP || null,
+                userAgent || null,
+                hostName || null,
+                formattedDate || null
+            ).run();
 
         // 返回短链信息
         return createResponse(200, 'success', 200, {
