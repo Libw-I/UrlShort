@@ -1,60 +1,59 @@
-window.onload = () => {
-    // 初始化变量
-    let loading = false;
-    const submitButton = document.getElementById('submit');
-
-    // 显示提示信息的函数
-    const showAlert = (type, message) => {
+// 初始化变量和方法
+let loading = false;
+const submitButton = document.getElementById('submit'),
+    showAlert = (type, message) => {
         const alertEl = document.getElementById('alert');
         alertEl.className = type || '';
         alertEl.textContent = message;
     };
 
-    // Turnstile 回调方法
-    window.TurnstileHandler = {
-        // 成功验证的处理
-        onSuccess: function () {
-            submitButton.disabled = false;
-            submitButton.classList.remove('loading');
-            submitButton.textContent = '生成短链';
-        },
+// Turnstile 回调方法
+const TurnstileHandler = {
+    // 成功验证的处理
+    onSuccess: function () {
+        submitButton.disabled = false;
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '生成短链';
+    },
 
-        // 出现错误时的处理
-        onError: function () {
-            submitButton.classList.remove('loading');
-            submitButton.textContent = '请尝试刷新页面';
-            TurnstileHandler.showAlert('error', '验证码在验证时出错, 请尝试刷新页面');
-        },
+    // 出现错误时的处理
+    onError: function () {
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '请尝试刷新页面';
+        showAlert('error', '验证码在验证时出错, 请尝试刷新页面');
+    },
 
-        // 验证过期时的处理
-        onExpired: function () {
-            submitButton.classList.remove('loading');
-            submitButton.textContent = '请重新通过验证码';
-            TurnstileHandler.showAlert('error', '验证码的令牌已过期, 请重新验证');
-        },
+    // 验证过期时的处理
+    onExpired: function () {
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '请重新通过验证码';
+        showAlert('error', '验证码的令牌已过期, 请重新验证');
+    },
 
-        // 验证前的交互处理
-        onBeforeInteractive: function () {
-            submitButton.disabled = true;
-            submitButton.classList.add('loading');
-            submitButton.textContent = '请等待验证码验证完成...';
-        },
+    // 验证前的交互处理
+    onBeforeInteractive: function () {
+        submitButton.disabled = true;
+        submitButton.classList.add('loading');
+        submitButton.textContent = '请等待验证码验证完成...';
+    },
 
-        // 浏览器不支持的处理
-        onUnsupported: function () {
-            submitButton.classList.remove('loading');
-            submitButton.textContent = '请更新浏览器后再来';
-            TurnstileHandler.showAlert('error', '抱歉, 您的浏览器过旧, 请更新后再来');
-        },
+    // 浏览器不支持的处理
+    onUnsupported: function () {
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '请更新浏览器后再来';
+        TurnstileHandler.showAlert('error', '抱歉, 您的浏览器过旧, 请更新后再来');
+    },
 
-        // 验证超时的处理
-        onTimeout: function () {
-            submitButton.classList.remove('loading');
-            submitButton.textContent = '请尝试刷新页面';
-            TurnstileHandler.showAlert('error', '验证码在验证中超时, 请尝试刷新页面');
-        }
-    };
+    // 验证超时的处理
+    onTimeout: function () {
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '请尝试刷新页面';
+        TurnstileHandler.showAlert('error', '验证码在验证中超时, 请尝试刷新页面');
+    }
+};
 
+// 页面内容
+window.onload = () => {
     submitButton.addEventListener('click', () => {
         if (loading) return; // 如果正在加载中，直接返回
 
