@@ -331,10 +331,6 @@ footer p {
         cursor: not-allowed
     }
 
-    #submit.loading::before {
-        border: 2px solid #ffffff
-    }
-
     footer p {
         color: #4b5563
     }

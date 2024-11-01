@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="/images/favicon.ico"/>
     <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="preload" href="//challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/cmg/1" as="image">
     <script src="//challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="/js/script.js"></script>
 </head>
@@ -34,7 +35,7 @@
             </div>
         </details>
 
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAylDH0pXEVAkn1K"></div>
+        <div id="turnstile-widget"></div>
 
         <button id="submit" alt="点击此按钮以生成短链">生成短链</button>
     </div>
@@ -48,7 +49,7 @@
         </p>
 
         <div class="copyright">
-            <p>Copyright &copy; 2023-Present
+            <p>Copyright &copy; 2024-Present
                 <a href="https://ncm.re/">Ncm.Re</a>.<br/>
                 Powered by <a href="https://github.com/Libw-I/UrlShort" rel="external nofollow noopener noreferrer"
                               target="_blank">Short</a>.
