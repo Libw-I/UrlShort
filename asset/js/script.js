@@ -3,11 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let loading = false;
     const submitButton = document.getElementById('submit');
 
-    // 初始化按钮
-    submitButton.disabled = true;
-    submitButton.classList.add('loading');
-    submitButton.textContent = '请等待验证码验证完成...';
-
     // 显示提示信息的函数
     const showAlert = (type, message) => {
         const alertEl = document.getElementById('alert');
@@ -16,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 渲染 Turnstile 小部件
-    let widgetId = turnstile.render('#turnstile-widget', {
+    const widgetId = turnstile.render('#turnstile-widget', {
         sitekey: '0x4AAAAAAAylDH0pXEVAkn1K',
         'retry': 'never',
         'refresh-expired': 'manual',
@@ -36,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.classList.remove('loading');
             submitButton.textContent = '请重新通过验证码';
             showAlert('error', '验证码的令牌已过期, 请重新验证');
+        },
+        'before-interactive-callback': () => {
+            submitButton.disabled = true;
+            submitButton.classList.add('loading');
+            submitButton.textContent = '请等待验证码验证完成...';
         },
         'unsupported-callback': () => {
             submitButton.classList.remove('loading');
