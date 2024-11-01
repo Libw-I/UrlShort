@@ -35,7 +35,20 @@
             </div>
         </details>
 
-        <div id="turnstile-widget"></div>
+        <!-- Turnstile 验证 -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAAAylDH0pXEVAkn1K"
+             data-retry="never"
+             data-refresh-expired="manual"
+             data-refresh-timeout="manual"
+             data-feedback="false"
+             data-callback="TurnstileHandler.onSuccess"
+             data-error-callback="TurnstileHandler.onError"
+             data-expired-callback="TurnstileHandler.onExpired"
+             data-before-interactive-callback="TurnstileHandler.onBeforeInteractive"
+             data-unsupported-callback="TurnstileHandler.onUnsupported"
+             data-timeout-callback="TurnstileHandler.onTimeout">
+        </div>
 
         <button id="submit" alt="点击此按钮以生成短链" disabled class="loading">加载中...</button>
     </div>
