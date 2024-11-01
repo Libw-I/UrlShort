@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
     // 初始化变量
     let loading = false;
     const submitButton = document.getElementById('submit');
@@ -123,4 +123,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 turnstile.reset(widgetId);
             });
     });
-});
+}
