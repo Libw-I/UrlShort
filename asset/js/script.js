@@ -11,7 +11,7 @@ window.onload = () => {
     };
 
     // Turnstile 回调方法
-    const TurnstileHandler = {
+    window.TurnstileHandler = {
         // 成功验证的处理
         onSuccess: function () {
             submitButton.disabled = false;
