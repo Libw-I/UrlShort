@@ -5,7 +5,7 @@
     <title>Ncm.Re 短网址 - 短链管理工具</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/css/manage.css"/>
-    <script src="//challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="/js/captcha.js"></script>
 </head>
 <body>
 <div class="container">
@@ -37,13 +37,15 @@
         <div id="newPasswordGroup" style="display: none;">
             <input type="password" placeholder="新的密码" id="newPassword" class="input-field">
         </div>
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAylDH0pXEVAkn1K"></div>
+
+        <!-- Turnstile 验证 -->
+        <div id="bw-captcha-widget" bw-captcha-key="0x4AAAAAAAylDH0pXEVAkn1K"></div>
+
         <button type="submit" id="submit">更新短链</button>
     </form>
 
     <div id="result"></div>
 </div>
-
 <script src="/js/manage.js"></script>
 </body>
 </html>

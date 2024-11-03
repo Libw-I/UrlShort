@@ -1,12 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
     // 获取操作选择框和相关的输入组元素
-    const operationSelect = document.getElementById('operation');
-    const newUrlGroup = document.getElementById('newUrlGroup');
-    const newSlugGroup = document.getElementById('newSlugGroup');
-    const newPasswordGroup = document.getElementById('newPasswordGroup');
-    const apiForm = document.getElementById('apiForm');
-    const resultDiv = document.getElementById('result');
-    const submitButton = document.getElementById('submit');
+    const operationSelect = document.getElementById('operation'),
+        newUrlGroup = document.getElementById('newUrlGroup'),
+        newSlugGroup = document.getElementById('newSlugGroup'),
+        newPasswordGroup = document.getElementById('newPasswordGroup'),
+        apiForm = document.getElementById('apiForm'),
+        resultDiv = document.getElementById('result'),
+        submitButton = document.getElementById('submit'),
+        CaptchaWidget = document.getElementById('bw-captcha-widget'),
+        Captcha_Id = CaptchaWidget.getAttribute('id'),
+        CaptchaKey = CaptchaWidget.getAttribute('bw-captcha-key');
+
+    // 加载验证码
+    if (CaptchaWidget && Captcha_Id && CaptchaKey) BW_Captcha(Captcha_Id, CaptchaKey, submitButton);
 
     // 根据选择的操作显示对应的输入组
     const toggleGroups = () => {
@@ -79,9 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
             resultDiv.innerHTML = `<div class="${response.ok ? 'alert' : 'errorAlert'}" role="alert">${responseData.message}</div>`;
         } catch (error) {
             // 处理请求失败的情况
+            console.error('Error details:', err);
             resultDiv.innerHTML = `<div class="errorAlert" role="alert">请求失败，请稍后重试</div>`;
+            turnstile.reset(_TurnstileWidgetId);
         } finally {
             submitButton.disabled = false; // 恢复提交按钮
+            turnstile.reset(_TurnstileWidgetId);
         }
     });
-});
+};

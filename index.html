@@ -7,6 +7,7 @@
     <link rel="icon" href="/images/favicon.ico"/>
     <link rel="stylesheet" href="/css/styles.css"/>
     <link rel="preload" href="//challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/cmg/1" as="image">
+    <script src="/js/captcha.js"></script>
 </head>
 <body>
 <div class="canister">
@@ -34,7 +35,7 @@
         </details>
 
         <!-- Turnstile 验证 -->
-        <div id="turnstile-widget"></div>
+        <div id="bw-captcha-widget" bw-captcha-key="0x4AAAAAAAylDH0pXEVAkn1K"></div>
 
         <button id="submit" alt="点击此按钮以生成短链" disabled class="loading">加载中...</button>
     </div>
