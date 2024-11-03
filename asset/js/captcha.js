@@ -27,24 +27,23 @@ const BW_Captcha = (div_id, site_key, submitButton, showAlert) => {
                 updateButtonState(false, '生成短链');
             },
             'error-callback': () => {
-                updateButtonState(false, '请尝试刷新页面');
-                handleAlert('error', '验证码在验证时出错, 请尝试刷新页面');
+                updateButtonState(true, '请尝试刷新页面');
+                handleAlert('error', '验证码验证出错');
             },
             'expired-callback': () => {
-                updateButtonState(false, '请重新通过验证码');
-                handleAlert('error', '验证码的令牌已过期, 请重新验证');
+                updateButtonState(true, '请重新尝试验证码');
+                handleAlert('error', '验证码的令牌已过期');
             },
             'before-interactive-callback': () => {
                 updateButtonState(true, '请通过验证码');
-                handleAlert();
             },
             'unsupported-callback': () => {
-                updateButtonState(false, '请更新浏览器后再来');
-                handleAlert('error', '抱歉, 您的浏览器过旧, 请更新后再来');
+                updateButtonState(true, '请更新浏览器后再来');
+                handleAlert('error', '抱歉, 您的浏览器过旧');
             },
             'timeout-callback': () => {
-                updateButtonState(false, '请尝试刷新页面');
-                handleAlert('error', '验证码在验证中超时, 请尝试刷新页面');
+                updateButtonState(true, '请确保浏览器环境正常后重新尝试验证码');
+                handleAlert('error', '验证码验证超时');
             },
         });
     };
