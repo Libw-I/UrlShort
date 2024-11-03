@@ -73,7 +73,7 @@ window.onload = () => {
             }
             showAlert('error', errorMsg);
         } finally {
-            turnstile.reset(_TurnstileWidgetId);
+            turnstile.reset();
         }
         loading = false;
         submitButton.disabled = false;

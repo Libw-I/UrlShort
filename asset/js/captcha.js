@@ -16,8 +16,7 @@ const BW_Captcha = (div_id, site_key, submitButton, showAlert) => {
     script.async = true;
     script.onload = () => {
         updateButtonState(true, true, '正在验证您是否为机器人...');
-
-        window._TurnstileWidgetId = turnstile.render('#' + div_id, {
+        turnstile.render('#' + div_id, {
             sitekey: site_key,
             retry: 'never',
             'refresh-expired': 'manual',
