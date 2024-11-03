@@ -15,6 +15,9 @@ window.onload = () => {
         script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
         script.async = true;
         script.onload = () => {
+            submitButton.disabled = true;
+            submitButton.classList.add('loading');
+            submitButton.textContent = '正在验证您是否为机器人...';
             // 显示验证码
             this._TurnstileWidgetId = turnstile.render('#turnstile-widget', {
                 'sitekey': '0x4AAAAAAAylDH0pXEVAkn1K',
