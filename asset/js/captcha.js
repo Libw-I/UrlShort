@@ -25,7 +25,6 @@ const BW_Captcha = (div_id, site_key, submitButton, showAlert) => {
             'feedback-enabled': false,
             callback: () => {
                 updateButtonState(false, '生成短链');
-                handleAlert();
             },
             'error-callback': () => {
                 updateButtonState(false, '请尝试刷新页面');

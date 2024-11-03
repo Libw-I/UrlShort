@@ -65,7 +65,6 @@ window.onload = () => {
                 document.getElementById('url').value = res.link;
                 document.getElementById('url').select();
                 showAlert('success', '完成, 请复制下方的链接！');
-                submitButton.textContent = '生成短链';
             }
         } catch (err) {
             let errorMsg = '抱歉, 短链创建失败, 请重试';
@@ -74,10 +73,11 @@ window.onload = () => {
             }
             showAlert('error', errorMsg);
         } finally {
-            loading = false;
-            submitButton.disabled = false;
-            submitButton.classList.remove('loading');
             turnstile.reset(_TurnstileWidgetId);
         }
+        loading = false;
+        submitButton.disabled = false;
+        submitButton.classList.remove('loading');
+        submitButton.textContent = '生成短链';
     });
 };

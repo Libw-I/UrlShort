@@ -78,8 +78,8 @@ window.onload = () => {
             console.error('Error details:', error);
             resultDiv.innerHTML = `<div class="errorAlert" role="alert">请求失败，请稍后重试</div>`;
         } finally {
-            submitButton.disabled = false; // 恢复提交按钮
             turnstile.reset(_TurnstileWidgetId);
         }
+        submitButton.disabled = false; // 恢复提交按钮
     });
 };
