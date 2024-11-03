@@ -15,7 +15,7 @@ const BW_Captcha = (div_id, site_key, submitButton, showAlert) => {
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
     script.async = true;
     script.onload = () => {
-        updateButtonState(true, '正在验证您是否为机器人...');
+        updateButtonState(true, true, '正在验证您是否为机器人...');
 
         window._TurnstileWidgetId = turnstile.render('#' + div_id, {
             sitekey: site_key,
