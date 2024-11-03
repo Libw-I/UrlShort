@@ -6,8 +6,27 @@ window.onload = () => {
             const alertEl = document.getElementById('alert');
             alertEl.className = type || '';
             alertEl.textContent = message;
-        },
-        widgetId = turnstile.render('#turnstile-widget', {
+        };
+    this._TurnstileWidgetId = null;
+
+    // 异步加载Cloudflare Turnstile脚本
+    function loadTurnstile() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('加载失败'));
+            document.head.appendChild(script);
+        });
+    }
+
+    // 加载完成后渲染验证码
+    loadTurnstile().then(() => {
+        console.log("Turnstile 已加载，开始渲染验证码");
+
+        // 显示验证码
+        this._TurnstileWidgetId = turnstile.render('#turnstile-widget', {
             sitekey: '0x4AAAAAAAylDH0pXEVAkn1K',
             'retry': 'never',
             'refresh-expired': 'manual',
@@ -44,7 +63,11 @@ window.onload = () => {
                 showAlert('error', '验证码在验证中超时, 请尝试刷新页面');
             },
         });
+    }).catch((error) => {
+        console.error("加载Turnstile失败:", error);
+    });
 
+    // 监听按钮点击
     submitButton.addEventListener('click', () => {
         if (loading) return; // 如果正在加载中，直接返回
 
@@ -90,7 +113,7 @@ window.onload = () => {
                 loading = false;
                 submitButton.disabled = false;
                 submitButton.classList.remove('loading');
-                turnstile.reset(widgetId);
+                turnstile.reset(this._TurnstileWidgetId);
 
                 // 如果返回信息中包含错误，显示错误提示
                 if (res.message && res.code !== 200) {
@@ -116,7 +139,7 @@ window.onload = () => {
                 loading = false;
                 submitButton.disabled = false;
                 submitButton.classList.remove('loading');
-                turnstile.reset(widgetId);
+                turnstile.reset(this._TurnstileWidgetId);
             });
     });
 }
